@@ -2,12 +2,12 @@
 class TransactionParser
 {
     private $filePath;
-    private $euCountries = [
+    public $euCountries = [
         'AT', 'BE', 'BG', 'CY', 'CZ', 'DE', 'DK', 'EE', 'ES', 'FI', 'FR', 'GR', 'HR', 'HU',
         'IE', 'IT', 'LT', 'LU', 'LV', 'MT', 'NL', 'PO', 'PT', 'RO', 'SE', 'SI', 'SK'
     ];
-    private $binListUrl = 'https://lookup.binlist.net/';
-    private $exchangeRatesUrl = 'https://api.exchangeratesapi.io/latest';
+    public $binListUrl = 'https://lookup.binlist.net/';
+    public $exchangeRatesUrl = 'https://api.exchangeratesapi.io/latest';
 
     function __construct(string $path)
     {
