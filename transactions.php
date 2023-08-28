@@ -18,7 +18,11 @@ class TransactionParser
         $handle = fopen($this->filePath, 'r');
         if ($handle) {
             while (($line = fgets($handle)) !== false) {
-                echo $this->processTransaction($line);
+                try {
+                    echo $this->processTransaction($line);
+                } catch (Exception $e) {
+                    echo 'Caught exception: ',  $e->getMessage(), "\n";
+                }
                 print "\n";
             }
             fclose($handle);
@@ -28,7 +32,7 @@ class TransactionParser
     public function getCountryCode(int $bin): string {
         $response = file_get_contents($this->binListUrl . $bin);
         if (empty($response)) {
-            die('error!');
+            throw new Exception('Bin listing service is unavailable');
         }
         $response = json_decode($response);
         return $response->country->alpha2;
@@ -43,6 +47,9 @@ class TransactionParser
     }
     public function getExchangeRate(string $currency): float {
         $response = file_get_contents($this->exchangeRatesUrl);
+        if (empty($response)) {
+            throw new Exception('Currency exchange rete service is unavailable');
+        }
         $response = json_decode($response);
         return $response->rates->$currency;
     }
